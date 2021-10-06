@@ -73,7 +73,8 @@ fs.readFile(fileName, text => {
   let arr = text.split(' ').map(el => parseInt(el))
   // console.log(arr)
   // bubbleSort(arr)
-  insertionSortIt(arr)
+  // insertionSortIt(arr)
+  placePivot(arr)
 
 });
 
@@ -81,3 +82,29 @@ fs.readFile(fileName, text => {
 
 // Fonction PIVOT 
 
+const swap = (list, a, b) => [list[a], list[b]] = [list[b], list[a]];
+
+const placePivot = (arr, start = 0, end = arr.length - 1) => {
+  console.log(arr)
+  // console.log(start, end)
+  // console.log(arr.slice(start, end + 1))
+
+  let indexPivot = start
+  let indexLastSmaller = indexPivot
+  for (indexCurrent = indexPivot + 1; indexCurrent <= end; indexCurrent++) {
+    if (arr[indexCurrent] < arr[indexPivot]) {
+      swap(arr, indexLastSmaller + 1, indexCurrent)
+      indexLastSmaller++
+    }
+  }
+  swap(arr, indexPivot, indexLastSmaller)
+  if (indexLastSmaller - 1 > indexPivot) {
+    // console.log("gauche")
+    placePivot(arr, indexPivot, indexLastSmaller - 1)
+  }
+  if (indexLastSmaller + 1 < end) {
+    // console.log("droite")
+    placePivot(arr, indexLastSmaller + 1, end)
+  }
+  return arr
+}
